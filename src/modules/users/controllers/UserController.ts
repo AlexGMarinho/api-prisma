@@ -4,7 +4,7 @@ import { CreateUserService } from "../services/CreateUserService";
 import { ListUserService } from "../services/ListUserService";
 
 export class UsersController {
-  public async create(req: Request, res: Response): Promise<Response> {
+  async create(req: Request, res: Response): Promise<Response> {
     try {
       const { name, email } = req.body;
 
@@ -21,7 +21,7 @@ export class UsersController {
     }
   }
 
-  public async index(req: Request, res: Response): Promise<Response> {
+  async index(req: Request, res: Response): Promise<Response> {
     const listUser = new ListUserService();
 
     const users = await listUser.execute();
