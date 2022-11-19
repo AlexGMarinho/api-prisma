@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { prismaClient } from "../../../databases/prismaClient";
 import { CreateUserService } from "../services/CreateUserService";
-import { ListUserService } from "../services/ListUserService";
+import { DeleteUserService } from "../services/DeleteUserService";
+import { ListAllUserService } from "../services/ListAllUserService";
 
 export class UsersController {
   async create(req: Request, res: Response): Promise<Response> {
@@ -22,11 +23,27 @@ export class UsersController {
   }
 
   async index(req: Request, res: Response): Promise<Response> {
-    const listUser = new ListUserService();
+    const listUser = new ListAllUserService();
 
     const users = await listUser.execute();
 
     return res.json(users);
+  }
+
+  async delete(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+
+      const deleteUser = new DeleteUserService();
+
+      await deleteUser.execute({
+        id: Number(id),
+      });
+
+      return res.json({ message: "User Deleted" });
+    } catch (error) {
+      return res.json({ error });
+    }
   }
 }
 
@@ -86,31 +103,6 @@ export const updateUser = async (
     });
 
     return res.json({ message: "Updated User" });
-  } catch (error) {
-    return res.json({ error });
-  }
-};
-
-export const deletePost = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const { id } = req.params;
-
-  try {
-    const user = await prismaClient.user.findUnique({
-      where: { id: Number(id) },
-    });
-
-    if (!user) {
-      return res.json({ message: "User not exist" });
-    }
-
-    await prismaClient.user.delete({
-      where: { id: Number(id) },
-    });
-
-    return res.json({ message: "Deleted post" });
   } catch (error) {
     return res.json({ error });
   }

@@ -20,5 +20,5 @@ model Post {
   content    String
   userId     Int
   created_at DateTime @default(now())
-  author     User     @relation(fields: [userId], references: [id])
+  author     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

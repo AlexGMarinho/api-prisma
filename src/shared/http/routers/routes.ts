@@ -5,7 +5,6 @@ import {
   updatePost,
 } from "../../../modules/posts/controllers/PostController";
 import {
-  deletePost,
   listUser,
   updateUser,
 } from "../../../modules/users/controllers/UserController";
@@ -15,10 +14,10 @@ export const router = Router();
 
 router.use("/user", usersRouter);
 router.use("/users", usersRouter);
+router.use("/user/:id", usersRouter)
 router.get("/user/:id", listUser);
 router.put("/user/:id", updateUser);
 
 router.post("/post/user/:id", createPost);
 router.get("/posts", findAllPost);
 router.put("/post/:id", updatePost);
-router.delete("/post/:id", deletePost);

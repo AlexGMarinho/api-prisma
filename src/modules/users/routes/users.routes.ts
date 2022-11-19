@@ -6,3 +6,4 @@ const usersController = new UsersController();
 
 usersRouter.get("/", usersController.index);
 usersRouter.post("/", usersController.create);
+usersRouter.delete("/:id", usersController.delete);
