@@ -2,13 +2,13 @@ import { AppError } from "../../../shared/errors/AppError";
 import { User } from "@prisma/client";
 import { prismaClient } from "../../../databases/prismaClient";
 
-interface IRquest {
+interface IRequest {
   name: string;
   email: string;
 }
 
 export class CreateUserService {
-  public async execute({ name, email }: IRquest): Promise<User> {
+  public async execute({ name, email }: IRequest): Promise<User> {
     const emailExists = await prismaClient.user.findUnique({
       where: { email },
     });

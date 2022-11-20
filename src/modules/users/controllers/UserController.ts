@@ -3,6 +3,7 @@ import { prismaClient } from "../../../databases/prismaClient";
 import { CreateUserService } from "../services/CreateUserService";
 import { DeleteUserService } from "../services/DeleteUserService";
 import { ListAllUserService } from "../services/ListAllUserService";
+import { UpdateUserService } from "../services/UpdateUserServide";
 
 export class UsersController {
   async create(req: Request, res: Response): Promise<Response> {
@@ -45,65 +46,23 @@ export class UsersController {
       return res.json({ error });
     }
   }
+
+  async update(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+      const { name, email } = req.body;
+
+      const updateUser = new UpdateUserService();
+
+      await updateUser.execute({
+        id: Number(id),
+        email,
+        name,
+      });
+
+      return res.json({ message: "Updated User" });
+    } catch (error) {
+      return res.json({ error });
+    }
+  }
 }
-
-export const listAllUser = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  try {
-    const users = await prismaClient.user.findMany();
-
-    return res.json(users);
-  } catch (error) {
-    return res.json(error);
-  }
-};
-
-export const listUser = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const { id } = req.params;
-
-  try {
-    const user = await prismaClient.user.findUnique({
-      where: { id: Number(id) },
-    });
-
-    if (!user) {
-      return res.json({ message: "User not exist" });
-    }
-
-    return res.json({ user });
-  } catch (error) {
-    return res.json({ error });
-  }
-};
-
-export const updateUser = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
-  const { id } = req.params;
-  const { name, email } = req.body;
-
-  try {
-    const user = await prismaClient.user.findUnique({
-      where: { id: Number(id) },
-    });
-
-    if (!user) {
-      return res.json({ message: "User not exist" });
-    }
-
-    await prismaClient.user.update({
-      where: { id: Number(id) },
-      data: { name, email },
-    });
-
-    return res.json({ message: "Updated User" });
-  } catch (error) {
-    return res.json({ error });
-  }
-};
