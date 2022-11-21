@@ -15,7 +15,6 @@ export class PostsController {
 
       return res.json(post);
     } catch (error) {
-      console.log("alo")
       return res.json(error);
     }
   }
