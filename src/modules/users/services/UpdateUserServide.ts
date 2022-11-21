@@ -3,7 +3,7 @@ import { prismaClient } from "../../../databases/prismaClient";
 import { AppError } from "../../../shared/errors/AppError";
 
 interface IRequest {
-  id: number;
+  id: string;
   name: string;
   email: string;
 }

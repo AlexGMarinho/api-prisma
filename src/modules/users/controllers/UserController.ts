@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import { prismaClient } from "../../../databases/prismaClient";
 import { CreateUserService } from "../services/CreateUserService";
 import { DeleteUserService } from "../services/DeleteUserService";
 import { ListAllUserService } from "../services/ListAllUserService";
@@ -55,7 +54,7 @@ export class UsersController {
       const updateUser = new UpdateUserService();
 
       await updateUser.execute({
-        id: Number(id),
+        id,
         email,
         name,
       });

@@ -1,5 +1,5 @@
-import { AppError } from "../../../shared/errors/AppError";
 import { User } from "@prisma/client";
+import { AppError } from "../../../shared/errors/AppError";
 import { prismaClient } from "../../../databases/prismaClient";
 
 interface IRequest {
@@ -8,7 +8,7 @@ interface IRequest {
 }
 
 export class CreateUserService {
-  public async execute({ name, email }: IRequest): Promise<User> {
+  async execute({ name, email }: IRequest): Promise<User> {
     const emailExists = await prismaClient.user.findUnique({
       where: { email },
     });

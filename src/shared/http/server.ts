@@ -8,7 +8,6 @@ app.use(express.json());
 app.use(router);
 
 app.use(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (err: Error, _request: Request, response: Response, _next: NextFunction) => {
     if (err instanceof AppError) {
       return response.status(err.statusCode).json({ message: err.message });
