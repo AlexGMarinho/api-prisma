@@ -5,3 +5,4 @@ export const postsRouter = Router();
 const postsController = new PostsController();
 
 postsRouter.post("/user/:id", postsController.create);
+postsRouter.get("/", postsController.index);

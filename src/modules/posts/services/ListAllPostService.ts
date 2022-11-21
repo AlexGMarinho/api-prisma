@@ -1,5 +1,5 @@
 import { Post } from "@prisma/client";
-import { prismaClient } from "src/databases/prismaClient";
+import { prismaClient } from "../../../databases/prismaClient";
 
 export class ListAllPostService {
   async execute(): Promise<Post[]> {

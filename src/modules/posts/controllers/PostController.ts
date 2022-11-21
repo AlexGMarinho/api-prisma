@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { CreatePostService } from "../services/CreatePostService";
+import { ListAllPostService } from "../services/ListAllPostService";
 
 export class PostsController {
   async create(req: Request, res: Response): Promise<Response> {
@@ -19,42 +20,20 @@ export class PostsController {
     }
   }
 
-  // async index(req: Request, res: Response): Promise<Response> {
-  //   async
-  // }
+  async index(req: Request, res: Response): Promise<Response> {
+    try {
+      const listPosts = new ListAllPostService();
+
+      const posts = await listPosts.execute();
+
+      return res.json(posts);
+    } catch (error) {
+      return res.json(error);
+    }
+  }
 }
 
-/*import { prismaClient } from "../../../databases/prismaClient";
-
-export const createPost = async (req, res) => {
-  const { id } = req.params;
-  const { content } = req.body;
-
-  try {
-    const user = await prismaClient.user.findUnique({
-      where: { id: Number(id) },
-    });
-
-    if (!user) {
-      return res.json({ message: "User not exist." });
-    }
-
-    const post = await prismaClient.post.create({
-      data: {
-        content,
-        userId: user.id,
-      },
-      include: {
-        author: true,
-      },
-    });
-
-    return res.json(post);
-  } catch (error) {
-    return res.json({ message: error.message });
-  }
-};
-
+/*
 export const findAllPost = async (req, res) => {
   try {
     const posts = await prismaClient.post.findMany();
