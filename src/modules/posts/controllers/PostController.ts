@@ -41,6 +41,7 @@ export class PostsController {
 
       const posts = await listUserPost.execute({
         id,
+        
       });
 
       return res.json(posts);
