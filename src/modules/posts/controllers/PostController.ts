@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { CreatePostService } from "../services/CreatePostService";
+import { DeletePostService } from "../services/DeletePostService";
 import { ListAllPostService } from "../services/ListAllPostService";
 import { ListPostsUserService } from "../services/ListPostsUserService";
 
@@ -34,14 +35,13 @@ export class PostsController {
   }
 
   async show(req: Request, res: Response): Promise<Response> {
-    const { id, userId } = req.params;
+    const { id } = req.params;
 
     try {
       const listUserPost = new ListPostsUserService();
 
       const posts = await listUserPost.execute({
         id,
-        
       });
 
       return res.json(posts);
@@ -49,33 +49,26 @@ export class PostsController {
       return res.json(error);
     }
   }
+
+  async delete(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+
+    try {
+      const deleteUserPost = new DeletePostService();
+
+      const posts = await deleteUserPost.execute({
+        id,
+        
+      });
+
+      return res.json({message: "Deleted Post"});
+    } catch (error) {
+      return res.json(error);
+    }
+  }
 }
 
 /*
-
-export const updatePost = async (req, res) => {
-  const { id } = req.params;
-  const { content } = req.body;
-
-  try {
-    const post = await prismaClient.post.findUnique({
-      where: { id: Number(id) },
-    });
-
-    if (!post) {
-      return res.json({ message: "Post not exist" });
-    }
-
-    await prismaClient.post.update({
-      where: { id: Number(id) },
-      data: { content },
-    });
-
-    return res.json({ message: "Updated post" });
-  } catch (error) {
-    return res.json({ error });
-  }
-};
 
 export const deletePost = async (req, res) => {
   const { id } = req.params;
