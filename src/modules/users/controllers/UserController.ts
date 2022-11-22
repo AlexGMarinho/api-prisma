@@ -30,22 +30,6 @@ export class UsersController {
     return res.json(users);
   }
 
-  async delete(req: Request, res: Response): Promise<Response> {
-    try {
-      const { id } = req.params;
-
-      const deleteUser = new DeleteUserService();
-
-      await deleteUser.execute({
-        id: Number(id),
-      });
-
-      return res.json({ message: "User Deleted" });
-    } catch (error) {
-      return res.json({ error });
-    }
-  }
-
   async update(req: Request, res: Response): Promise<Response> {
     try {
       const { id } = req.params;
@@ -60,6 +44,22 @@ export class UsersController {
       });
 
       return res.json({ message: "Updated User" });
+    } catch (error) {
+      return res.json({ error });
+    }
+  }
+
+  async delete(req: Request, res: Response): Promise<Response> {
+    try {
+      const { id } = req.params;
+
+      const deleteUser = new DeleteUserService();
+
+      await deleteUser.execute({
+        id,
+      });
+
+      return res.json({ message: "User Deleted" });
     } catch (error) {
       return res.json({ error });
     }
