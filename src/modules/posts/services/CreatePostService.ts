@@ -9,9 +9,7 @@ interface IRequest {
 
 export class CreatePostService {
   async execute({ id, content }: IRequest): Promise<Post> {
-    const user = await prismaClient.user.findUnique({
-      where: { id },
-    });
+    const user = await prismaClient.user.findUnique({ where: { id } });
 
     if (!user) throw new AppError("User not exist");
 

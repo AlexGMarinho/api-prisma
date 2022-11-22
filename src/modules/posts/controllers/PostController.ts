@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { CreatePostService } from "../services/CreatePostService";
 import { ListAllPostService } from "../services/ListAllPostService";
+import { ListPostsUserService } from "../services/ListPostsUserService";
 
 export class PostsController {
   async create(req: Request, res: Response): Promise<Response> {
@@ -31,18 +32,25 @@ export class PostsController {
       return res.json(error);
     }
   }
+
+  async show(req: Request, res: Response): Promise<Response> {
+    const { id, userId } = req.params;
+
+    try {
+      const listUserPost = new ListPostsUserService();
+
+      const posts = await listUserPost.execute({
+        id,
+      });
+
+      return res.json(posts);
+    } catch (error) {
+      return res.json(error);
+    }
+  }
 }
 
 /*
-export const findAllPost = async (req, res) => {
-  try {
-    const posts = await prismaClient.post.findMany();
-
-    return res.json(posts);
-  } catch (error) {
-    return res.json(error);
-  }
-};
 
 export const updatePost = async (req, res) => {
   const { id } = req.params;
