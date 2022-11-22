@@ -17,6 +17,7 @@ export class ListPostsUserService {
       select: {
         Post: {
           select: {
+            author: true,
             id: true,
             content: true,
             created_at: true,

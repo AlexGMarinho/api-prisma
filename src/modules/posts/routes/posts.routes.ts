@@ -7,4 +7,5 @@ const postsController = new PostsController();
 postsRouter.post("/user/:id", postsController.create);
 postsRouter.get("/", postsController.index);
 postsRouter.get("/user/:id", postsController.show);
+postsRouter.put("/user/:id", postsController.update);
 postsRouter.delete("/:id", postsController.delete);

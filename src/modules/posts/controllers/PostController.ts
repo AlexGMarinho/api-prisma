@@ -3,6 +3,7 @@ import { CreatePostService } from "../services/CreatePostService";
 import { DeletePostService } from "../services/DeletePostService";
 import { ListAllPostService } from "../services/ListAllPostService";
 import { ListPostsUserService } from "../services/ListPostsUserService";
+import { UpdatePostService } from "../services/UpdatePostService";
 
 export class PostsController {
   async create(req: Request, res: Response): Promise<Response> {
@@ -40,11 +41,30 @@ export class PostsController {
     try {
       const listUserPost = new ListPostsUserService();
 
-      const posts = await listUserPost.execute({
+      const post = await listUserPost.execute({
         id,
       });
 
-      return res.json(posts);
+      return res.json(post);
+    } catch (error) {
+      return res.json(error);
+    }
+  }
+
+  async update(req: Request, res: Response): Promise<Response> {
+    const { id } = req.params;
+    const { email, content } = req.body;
+
+    try {
+      const uptadePost = new UpdatePostService();
+
+      await uptadePost.execute({
+        id,
+        email,
+        content,
+      });
+
+      return res.json({ message: "Updated post" });
     } catch (error) {
       return res.json(error);
     }
@@ -56,39 +76,13 @@ export class PostsController {
     try {
       const deleteUserPost = new DeletePostService();
 
-      const posts = await deleteUserPost.execute({
+      await deleteUserPost.execute({
         id,
-        
       });
 
-      return res.json({message: "Deleted Post"});
+      return res.json({ message: "Deleted Post" });
     } catch (error) {
       return res.json(error);
     }
   }
 }
-
-/*
-
-export const deletePost = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const post = await prismaClient.post.findUnique({
-      where: { id: Number(id) },
-    });
-
-    if (!post) {
-      return res.json({ message: "Post not exist" });
-    }
-
-    await prismaClient.post.delete({
-      where: { id: Number(id) },
-    });
-
-    return res.json({ message: "Post deleted" });
-  } catch (error) {
-    return res.json({ error });
-  }
-};
-/*/
