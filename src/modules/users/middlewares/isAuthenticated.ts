@@ -1,13 +1,20 @@
 import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
+import { prismaClient } from "../../../databases/prismaClient";
 import authConfig from "../../../config/auth";
 import { AppError } from "../../../shared/errors/AppError";
 
-export function isAuthenticated(
+interface DecodeToken {
+  iat: number;
+  exp: number;
+  sub: string;
+}
+
+export async function isAuthenticated(
   req: Request,
   res: Response,
   next: NextFunction
-): void {
+): Promise<void> {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
@@ -18,10 +25,16 @@ export function isAuthenticated(
   const [, token] = authHeader.split(" ");
 
   try {
-    const decodeToken = verify(token, authConfig.jwt.secret);
+    const decodeToken = verify(token, authConfig.jwt.secret) as DecodeToken;
+
+    const user = await prismaClient.user.findUnique({
+      where: { id: decodeToken.sub },
+    });
+
+    if (!user) next(new AppError("User not exist"));
 
     return next();
   } catch (error) {
-    throw new AppError("Invalid JWT Token.");
+    return next(new AppError("Invalid JWT Token."));
   }
 }

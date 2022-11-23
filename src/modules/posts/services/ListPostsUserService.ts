@@ -8,24 +8,15 @@ interface IRequest {
 
 export class ListPostsUserService {
   async execute({ id }: IRequest): Promise<User> {
-    const userExist = await prismaClient.user.findUnique({ where: { id } });
-
-    if (!userExist) throw new AppError("User not exist");
-
-    const userPost = await prismaClient.user.findUnique({
+    const userExist = await prismaClient.user.findUnique({
       where: { id },
-      select: {
-        Post: {
-          select: {
-            author: true,
-            id: true,
-            content: true,
-            created_at: true,
-          },
-        },
+      include: {
+        Post: { select: { id: true, content: true, created_at: true } },
       },
     });
 
-    return userPost;
+    if (!userExist) throw new AppError("User not exist");
+
+    return userExist;
   }
 }

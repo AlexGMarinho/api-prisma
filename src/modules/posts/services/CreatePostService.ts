@@ -16,7 +16,7 @@ export class CreatePostService {
     const post = await prismaClient.post.create({
       data: {
         content,
-        userId: user.id,
+        user_id: user.id,
       },
       include: {
         author: true,
