@@ -12,7 +12,7 @@ usersRouter.post(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string(),
-      email: Joi.string().required(),
+      email: Joi.string().email().required(),
       password: Joi.string().required(),
     },
   }),
@@ -24,7 +24,7 @@ usersRouter.put(
   celebrate({
     [Segments.BODY]: {
       name: Joi.string(),
-      email: Joi.string().required(),
+      email: Joi.string().email().required(),
       password: Joi.string().required(),
     },
   }),

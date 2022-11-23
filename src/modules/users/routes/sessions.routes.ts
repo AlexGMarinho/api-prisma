@@ -1,16 +1,15 @@
 import { Router } from "express";
 import { celebrate, Joi, Segments } from "celebrate";
 import { SessionsController } from "../controllers/SessionsController";
-import { usersRouter } from "./users.router";
 
 export const sessionsRouter = Router();
 const sessionsController = new SessionsController();
 
-usersRouter.post(
+sessionsRouter.post(
   "/",
   celebrate({
     [Segments.BODY]: {
-      email: Joi.string().required(),
+      email: Joi.string().email().required(),
       password: Joi.string().required(),
     },
   }),
