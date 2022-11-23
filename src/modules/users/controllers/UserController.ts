@@ -7,18 +7,19 @@ import { UpdateUserService } from "../services/UpdateUserServide";
 export class UsersController {
   async create(req: Request, res: Response): Promise<Response> {
     try {
-      const { name, email } = req.body;
+      const { name, email, password } = req.body;
 
       const createUser = new CreateUserService();
 
       const user = await createUser.execute({
         name,
         email,
+        password,
       });
 
       return res.json(user);
     } catch (error) {
-      return res.json(error);
+      return res.json({error});
     }
   }
 

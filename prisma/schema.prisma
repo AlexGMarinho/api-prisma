@@ -8,18 +8,30 @@ datasource db {
 }
 
 model User {
-  id         String   @id @default(uuid())
-  email      String   @unique
+  id         String       @id @default(uuid())
+  name       String?
+  email      String       @unique
   password   String
-  name       String
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
   Post       Post[]
-  created_at DateTime @default(now())
+  UserTokens UserTokens[] @relation("user_id")
 }
 
 model Post {
   id         String   @id @default(uuid())
   content    String
-  userId     String
+  user_id    String
   created_at DateTime @default(now())
-  author     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  author     User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+}
+
+model UserTokens {
+  id            String   @id @default(uuid())
+  refresh_token String
+  expires_date  DateTime
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  user_id       String
+  User          User     @relation("user_id", fields: [user_id], references: [id])
 }

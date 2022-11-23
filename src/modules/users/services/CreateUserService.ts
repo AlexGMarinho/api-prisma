@@ -5,10 +5,12 @@ import { prismaClient } from "../../../databases/prismaClient";
 interface IRequest {
   name: string;
   email: string;
+  password: string;
 }
 
+
 export class CreateUserService {
-  async execute({ name, email }: IRequest): Promise<User> {
+  async execute({ name, email, password }: IRequest): Promise<User> {
     const emailExists = await prismaClient.user.findUnique({
       where: { email },
     });
@@ -19,6 +21,7 @@ export class CreateUserService {
       data: {
         name,
         email,
+        password,
       },
     });
 
