@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { UsersController } from "../controllers/UserController";
+import { UsersController } from "../controllers/UsersController";
 import { celebrate, Joi, Segments } from "celebrate";
 
 export const usersRouter = Router();
