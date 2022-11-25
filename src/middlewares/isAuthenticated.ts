@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { verify } from "jsonwebtoken";
-import { prismaClient } from "../../../databases/prismaClient";
-import authConfig from "../../../config/auth";
-import { AppError } from "../../../shared/errors/AppError";
+import { prismaClient } from "../databases/prismaClient";
+import authConfig from "../config/auth";
+import { AppError } from "../shared/errors/AppError";
 
 interface DecodeToken {
   iat: number;
