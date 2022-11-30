@@ -5,6 +5,6 @@ import { sessionsRouter } from "../../../modules/users/routes/sessions.routes";
 
 export const router = Router();
 
-router.use("/users", usersRouter);
-router.use("/posts", postsRouter);
+router.use("/user", usersRouter);
+router.use("/post", postsRouter);
 router.use("/sessions", sessionsRouter);

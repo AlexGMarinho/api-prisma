@@ -2,6 +2,7 @@ import { User } from "@prisma/client";
 import { AppError } from "../../../shared/errors/AppError";
 import { prismaClient } from "../../../databases/prismaClient";
 import { hash } from "bcryptjs";
+import { formatUserResponse, UserResponse } from "../../../shared/http/userHelper";
 
 interface IRequest {
   name: string;
@@ -10,7 +11,7 @@ interface IRequest {
 }
 
 export class CreateUserService {
-  async execute({ name, email, password }: IRequest): Promise<User> {
+  async execute({ name, email, password }: IRequest): Promise<UserResponse> {
     const emailExists = await prismaClient.user.findUnique({
       where: { email },
     });
@@ -27,6 +28,6 @@ export class CreateUserService {
       },
     });
 
-    return user;
+    return formatUserResponse(user);
   }
 }
